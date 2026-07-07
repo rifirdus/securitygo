@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecurGo - Workspace Lab</title>
+    <!-- Menghubungkan file CSS Lab -->
+    <link rel="stylesheet" href="lab.css">
+    <!-- Logo Favicon untuk Tab Browser -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2310b981'><path d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/></svg>">
+</head>
+<body>
+
+    <!-- LAYAR LOADING SIMULASI DEPLOY VM -->
+    <div id="vmLoader" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: var(--bg-color); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <div style="font-size: 40px; margin-bottom: 20px;">⚙️</div>
+        <h2 style="color: var(--primary-color); margin-bottom: 10px;">Menyiapkan Cloud Environment...</h2>
+        <p id="loadingStatus" style="color: var(--text-muted); font-family: monospace;">[+] Mengalokasikan IP Address...</p>
+        
+        <div style="width: 300px; height: 6px; background: var(--surface-color); border-radius: 3px; margin-top: 20px; overflow: hidden;">
+            <div id="loadingBar" style="height: 100%; width: 0%; background: var(--primary-color); transition: width 0.5s;"></div>
+        </div>
+    </div>
+
+    <!-- Header & Tab Manager -->
+    <!-- Header & Tab Manager -->
+    <header class="lab-header">
+        <div class="header-title" style="display: flex; align-items: center; gap: 10px;">
+            <!-- Logo Perisai SVG di Header Lab -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" stroke="var(--primary-color)" stroke-width="2" fill="rgba(16, 185, 129, 0.2)" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                <path d="M12 8v4"></path>
+                <path d="M12 16h.01"></path>
+            </svg>
+            <span style="font-weight: 800; letter-spacing: 1px;">Secur<span style="color: var(--primary-color);">Go</span></span> 
+            <span style="color: var(--text-muted); margin: 0 5px;">|</span>
+            Room: Linux Basic 
+            <span class="status" style="margin-left: 10px;">● Cloud Active</span>
+        </div>
+        <div class="tab-bar">
+            <!-- Memasukkan event ke dalam fungsi switchTab -->
+            <div class="tab active" onclick="switchTab(event, 'instruction')">📜 Instruksi</div>
+            <div class="tab" onclick="switchTab(event, 'terminal')">💻 Terminal Mesin</div>
+        </div>
+    </header>
+
+    <!-- TAB 1: INSTRUCTION -->
+    <div id="instructionContent" class="tab-content active-tab">
+        <!-- TAB 1: INSTRUCTION (DENGAN STORYTELLING) -->
+<div class="instruction-panel">
+    
+    <!-- Header Misi -->
+    <div style="background: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--primary-color); padding: 20px; border-radius: 4px 8px 8px 4px; margin-bottom: 25px;">
+        <h2 style="color: var(--primary-color); margin-bottom: 5px; font-size: 22px;">Misi: Investigasi ShadowNode</h2>
+        <span style="font-size: 12px; font-weight: bold; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Kategori: Forensik Server & Operasi Dasar</span>
+    </div>
+
+    <!-- Briefing Kasus (Storytelling) -->
+    <div class="card">
+        <h3 style="color: white; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">📋 Briefing Intelijen</h3>
+        <p>Pagi ini, tim Security Operations Center (SOC) kami mendeteksi lonjakan lalu lintas data yang tidak lazim menuju sebuah server anonim di wilayah Bogor, Jawa Barat.</p>
+        <p>Kami mencurigai server ini digunakan sebagai titik distribusi (*drop zone*) untuk sebuah malware baru yang menargetkan sistem akademik universitas. Tim kami berhasil menembus lapisan keamanan pertama dan menempatkan Anda di dalam sistem server tersebut menggunakan kredensial tingkat rendah (<code>student</code>).</p>
+        <p style="color: #f59e0b; font-weight: 500; font-style: italic;">Tugas Anda: Temukan direktori tempat malware tersebut disimpan dan identifikasi "Hash Signature" (barang bukti digital) yang ditinggalkan oleh pelaku.</p>
+    </div>
+
+    <!-- Langkah Teknis -->
+    <div class="card">
+        <h3 style="color: white; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">🎯 Objektif & Instruksi</h3>
+        
+        <div style="margin-bottom: 15px;">
+            <strong style="color: var(--text-main);">Langkah 1: Pemetaan Sistem</strong>
+            <p style="margin-top: 5px; font-size: 14px;">Buka tab <strong>Terminal Mesin</strong>. Saat Anda baru masuk, Anda buta terhadap lingkungan sekitar. Gunakan utilitas dasar Linux untuk melihat daftar berkas yang ada di direktori Anda saat ini.</p>
+            <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 6px; font-family: monospace; font-size: 13px; margin-top: 8px; color: var(--text-muted);">
+                > Ketik perintah: <span style="color: #3b82f6;">ls</span>
+            </div>
+        </div>
+
+        <div>
+            <strong style="color: var(--text-main);">Langkah 2: Ekstraksi Barang Bukti</strong>
+            <p style="margin-top: 5px; font-size: 14px;">Anda seharusnya melihat sebuah file teks yang disembunyikan. Pelaku biasanya meninggalkan rekam jejak pada file teks. Buka dan baca isi dari file <strong>flag.txt</strong> untuk menemukan kodenya.</p>
+            <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 6px; font-family: monospace; font-size: 13px; margin-top: 8px; color: var(--text-muted);">
+                > Ketik perintah: <span style="color: #3b82f6;">cat flag.txt</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Area Pengumpulan Bukti -->
+    <div class="flag-section">
+        <label style="font-weight: bold; color: var(--text-main); font-size: 15px;">🔍 Masukkan Hash Barang Bukti (Kode Flag):</label>
+        <div class="input-group" style="margin-top: 15px;">
+            <input type="text" id="flagInput" placeholder="SecurGo{...}" style="font-family: monospace;">
+            <button onclick="submitFlag()" id="btnSubmitFlag" style="font-size: 15px; letter-spacing: 0.5px;">Kirim Bukti</button>
+        </div>
+    </div>
+</div>
+    </div>
+
+    <!-- TAB 2: TERMINAL -->
+    <div id="terminalContent" class="tab-content">
+        <div class="terminal-panel" id="terminalContainer">
+            <div id="terminalOutput">
+                <div class="terminal-line">SecurGo Engine v1.0.0 - Cloud Server Initiated</div>
+                <div class="terminal-line">Ketik 'help' untuk daftar instruksi konsol.</div><br>
+            </div>
+            
+            <div class="terminal-input-wrapper">
+                <span class="terminal-prompt">student@securgo</span>:<span class="terminal-dir">~</span>$ 
+                <input type="text" class="terminal-input" id="termInput" autocomplete="off">
+            </div>
+        </div>
+    </div>
+
+    <!-- Menghubungkan file JavaScript Lab -->
+    <script src="lab.js"></script>
+</body>
+</html>
